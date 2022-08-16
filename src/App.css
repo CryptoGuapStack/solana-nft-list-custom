@@ -88,7 +88,7 @@
   font-weight: bold;
 }
 
-.gif-grid {
+.nft-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   grid-gap: 1.5rem;
@@ -97,15 +97,15 @@
   padding: 0;
 }
 
-.gif-grid .gif-item {
+.nft-grid .nft-item {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   position: relative;
   justify-self: center;
   align-self: center;
 }
 
-.gif-item img {
+.nft-item img {
   width: 100%;
   height: 300px;
   border-radius: 10px;

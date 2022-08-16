@@ -10,7 +10,7 @@ require('./App.css');
 //require('@solana/wallet-adapter-react-ui/styles.css');
 
 // Constants
-const TWITTER_HANDLE = '_buildspace';
+const TWITTER_HANDLE = 'CryptoGuapStack';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const TEST_GIF = [
   'https://i.giphy.com/media/eIG0HfouRQJQr1wBzz/giphy.webp',
@@ -29,7 +29,9 @@ export default function App() {
 
 // This will fetch the users' public key (wallet address) from any wallet we support
 
-
+const [inputValue, setInputValue ] = useState('');
+const [walletAddress, setWalletAddress] = useState(null);
+const [ nftList, setNFTList ] = useState([]);
 
 const renderNotConnectedContainer = () => (
   <div>
@@ -47,9 +49,23 @@ const renderNotConnectedContainer = () => (
 
 const renderConnectedContainer = () => (
   <div className="connected-container">
+    <form
+      onSubmit={(event) => {
+        event?.preventDefault();
+        sendWalletData();
+      }}
+    >
+      <input 
+      type="text"
+      placeholder="Enter Solana Wallet Address Here!"
+      value={inputValue}
+      onChange={onInputChange} 
+      />
+      <button type="submit" className="cta-button submit-gif-button">Submit</button>
+      </form>
     <div className="nft-grid">
     {(nfts || []).map((nft) => (
-        <div key={nft.mint}>
+        <div className="nft-item" key={nft.mint}>
           <img src={metadata?.[nft.mint]?.image} alt="nft" width="200" />
           <br />
           {nft.data.name}
@@ -59,8 +75,22 @@ const renderConnectedContainer = () => (
   </div>
 )
 
+const onInputChange = (event) => {
+  const { value } = event.target;
+  setInputValue(value);
+};
 
 
+const sendWalletData = async () => {
+  if (inputValue.length > 0) {
+    console.log('Wallet Address: ', inputValue);
+    //setNFTList breaks the app
+    //setNFTList([...nftList, inputValue]);
+    setInputValue('');
+  } else {
+    console.log('Empty input. Try again.')
+  }
+};
 
 
 
@@ -92,6 +122,31 @@ const renderConnectedContainer = () => (
     if (nfts?.length) fetchMetadata();
   }, [nfts, fetchMetadata]);
 
+  //this useEffect breaks the app
+  /*
+  useEffect(() => {
+    const onLoad = asnyc () => {
+      await checkIfWalletIsConnected();
+    };
+    window.addEventListener('load', onLoad);
+    return () => window.removeEventListener('load', onLoad);
+  }, []);
+*/
+//this useEffect breaks the app
+/*
+  useEffect(() => {
+    if (walletAddress) {
+      console.log('Fetching NFT list...');
+
+      //call solana program ehre
+
+
+      //set state
+      setNFTList(TEST_GIF);
+    }
+  },[walletAddress]);
+*/
+
   return (
     <>
     <div className="App">
@@ -116,7 +171,7 @@ const renderConnectedContainer = () => (
             href={TWITTER_LINK}
             target="_blank"
             rel="noreferrer"
-          >{`built on @${TWITTER_HANDLE}`}</a>
+          >{`built by @${TWITTER_HANDLE}`}</a>
         </div>
       </div>
     </div>

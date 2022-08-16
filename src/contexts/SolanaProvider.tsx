@@ -23,6 +23,7 @@ export default function App({ children }) {
 
       //state
       const [walletAddress, setWalletAddress] = useState(null);
+      
 
       // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
       const network = WalletAdapterNetwork.Mainnet;
